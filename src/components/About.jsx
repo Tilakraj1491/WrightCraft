@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
-
-// Image paths — about-story.jpg is user-supplied; falls back to about-founder-1.jpg if missing.
-const STORY_PHOTO = '/src/assets/about-story.jpg';
-const FALLBACK_PHOTO = '/src/assets/about-founder-1.jpeg';
+import StoryImg from "/src/assets/about-founder-1.jpeg";
 
 export default function About() {
   const [hasEntered, setHasEntered] = useState(false);
@@ -84,7 +81,7 @@ export default function About() {
         >
           {/* Photo with gray fallback */}
           <img
-            src={STORY_PHOTO}
+            src={StoryImg}
             alt="WrightCraft Studios team at work"
             className="absolute inset-0 w-full h-full object-cover object-center select-none transition-transform duration-700 ease-out group-hover:scale-[1.03]"
             onError={(e) => {

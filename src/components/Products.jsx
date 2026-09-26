@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ArrowRight, ArrowLeft } from 'lucide-react';
+import ProductImg1 from "/src/assets/product-1.jpg";
+import ProductImg2 from "/src/assets/product-2.jpg"
+import ProductImg3 from "/src/assets/product-3.jpg";
 
 /**
  * EDITABLE PRODUCT CONTENT ARRAY
@@ -11,7 +14,7 @@ const PRODUCTS = [
     name: 'Tally',
     description: 'Simple invoicing and expense tracking for freelancers and small businesses — no accountant required.',
     status: 'Live',
-    image: '/src/assets/product-1.jpg',
+    image: ProductImg1,
     href: '#contact',
   },
   {
@@ -19,7 +22,7 @@ const PRODUCTS = [
     name: 'Roundtable',
     description: 'A lightweight scheduling tool that finds meeting times across your team without the back-and-forth.',
     status: 'In progress',
-    image: '/src/assets/product-2.jpg',
+    image: ProductImg2,
     href: '#contact',
   },
   {
@@ -27,7 +30,7 @@ const PRODUCTS = [
     name: 'Nudge',
     description: 'A habit and task reminder app that adapts its nudges to how you actually respond to them.',
     status: 'Coming soon',
-    image: '/src/assets/product-3.jpg',
+    image: ProductImg3,
     href: '#contact',
   },
 ];
