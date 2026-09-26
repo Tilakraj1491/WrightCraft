@@ -22,8 +22,10 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="relative z-30 w-full font-jakarta" aria-label="Main Navigation">
-      <div className="flex items-center justify-between gap-3">
+    <header className="fixed top-0 left-0 right-0 z-50 w-full pointer-events-none">
+      <div className="max-w-[1640px] mx-auto px-4 sm:px-6 md:px-8 lg:px-9 pt-4 sm:pt-6">
+        <nav className="pointer-events-auto relative w-full font-jakarta" aria-label="Main Navigation">
+          <div className="flex items-center justify-between gap-3">
         {/* Left: Brand Pill - Solid white with soft shadow, black text */}
         <a
           href="#"
@@ -61,7 +63,7 @@ export default function Navbar() {
           <a
             href="#contact"
             onClick={(e) => scrollTo(e, '#contact')}
-            className="hidden sm:inline-flex items-center justify-center bg-[#0A0A0A] hover:bg-[#262626] text-white font-jakarta font-bold text-xs sm:text-sm px-5 py-2 sm:py-2.5 rounded-full shadow-[0_4px_14px_rgba(0,0,0,0.15)] hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-black"
+            className="hidden sm:inline-flex items-center justify-center bg-white hover:bg-[#F2F2F2] text-black font-jakarta font-bold text-xs sm:text-sm px-5 py-2 sm:py-2.5 rounded-full shadow-[0_4px_14px_rgba(0,0,0,0.15)] hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-black"
           >
             Get in touch
           </a>
@@ -106,6 +108,8 @@ export default function Navbar() {
           </ul>
         </div>
       )}
-    </nav>
+        </nav>
+      </div>
+    </header>
   );
 }

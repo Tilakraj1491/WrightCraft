@@ -1,6 +1,5 @@
 import React from 'react';
 import { ArrowRight, Boxes, Workflow } from 'lucide-react';
-import Navbar from './Navbar';
 import CircularBadge from './CircularBadge';
 import heroBg from '../assets/hero-bg.jpg';
 
@@ -48,15 +47,13 @@ export default function Hero() {
 
       {/* 
         HERO CONTENT CONTAINER (sitting on top of the full-height image)
-        - Top: Floating Navbar
+        - Top: Navigation Spacer (Navbar is fixed at the root level)
         - Lower: Two columns (Left: White text block, Right: Wheel badge + 2 Clean White Cards)
       */}
       <div className="relative z-10 w-full max-w-[1640px] mx-auto h-full min-h-[100dvh] lg:h-[100dvh] p-6 sm:p-7 md:p-8 lg:p-9 flex flex-col justify-between pointer-events-none">
         
-        {/* TOP: Floating Solid White Navigation */}
-        <div className="w-full pointer-events-auto">
-          <Navbar />
-        </div>
+        {/* TOP: Navigation Spacer */}
+        <div className="w-full h-11 sm:h-12 pointer-events-none" />
 
         {/* 
           LOWER ZONE:

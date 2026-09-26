@@ -1,4 +1,5 @@
 import React from 'react';
+import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import WhatWeDo from './components/WhatWeDo';
 import Products from './components/Products';
@@ -15,6 +16,9 @@ export default function App() {
       id="top"
       className="bg-white text-[#0A0A0A] font-dm selection:bg-[#0A0A0A] selection:text-white min-h-screen"
     >
+      {/* Fixed Navigation Bar */}
+      <Navbar />
+
       {/* 
         Hero section:
         Background is pure black with full-height image.

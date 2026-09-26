@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
 
+// Image paths — about-story.jpg is user-supplied; falls back to about-founder-1.jpg if missing.
+const STORY_PHOTO = '/src/assets/about-story.jpg';
+const FALLBACK_PHOTO = '/src/assets/about-founder-1.jpeg';
+
 export default function About() {
   const [hasEntered, setHasEntered] = useState(false);
   const sectionRef = useRef(null);
 
-  // Staggered viewport entrance animation
+  // One-time entrance animation
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -14,23 +18,22 @@ export default function About() {
           observer.disconnect();
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.08 }
     );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
+    if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
 
-  const scrollToProcess = (e) => {
+  const scrollToContact = (e) => {
     e.preventDefault();
-    const processEl = document.querySelector('#process');
-    if (processEl) {
-      processEl.scrollIntoView({ behavior: 'smooth' });
-    }
+    const el = document.querySelector('#contact');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
+
+  const fadeClass = (delay = 0) =>
+    `transition-all duration-700 ease-out motion-reduce:transition-none motion-reduce:transform-none ${
+      hasEntered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+    }`;
 
   return (
     <section
@@ -39,150 +42,110 @@ export default function About() {
       className="relative w-full max-w-[1640px] mx-auto px-4 sm:px-8 lg:px-16 py-16 sm:py-24 scroll-mt-6 text-[#0A0A0A]"
       aria-label="About WrightCraft Studios"
     >
-      {/* CENTERED SECTION HEADER */}
+      {/* TOP AREA — Label / Headline / CTA + Paragraph */}
       <div
-        className={`w-full max-w-2xl mx-auto text-center flex flex-col items-center gap-3.5 sm:gap-4 transition-all duration-700 ease-out motion-reduce:transition-none motion-reduce:transform-none ${
-          hasEntered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-        }`}
+        className={`w-full flex flex-col lg:flex-row lg:justify-between lg:items-start gap-8 lg:gap-12 pb-10 sm:pb-14 ${fadeClass()}`}
       >
-        {/* Pill Chip */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#E5E5E5] bg-white text-[#4A4A4A] font-jakarta font-bold text-xs uppercase tracking-[0.2em] shadow-sm">
-          <span>ABOUT US</span>
+        {/* Left (~55%) */}
+        <div className="w-full lg:w-[55%] flex flex-col items-start">
+          <span className="font-jakarta font-bold text-xs uppercase tracking-[0.24em] text-[#4A4A4A] mb-3">
+            ABOUT US
+          </span>
+          <h2 className="font-jakarta font-[800] text-[clamp(2rem,4.5vw,3.4rem)] text-[#0A0A0A] leading-[1.1] tracking-[-0.035em]">
+            Software Built with Care,<br className="hidden sm:block" /> Not Guesswork.
+          </h2>
+          <a
+            href="#contact"
+            onClick={scrollToContact}
+            className="mt-6 h-[48px] sm:h-[52px] px-6 sm:px-7 rounded-full bg-[#0A0A0A] hover:bg-[#262626] text-white font-jakarta font-bold text-sm sm:text-base inline-flex items-center gap-3.5 transition-all duration-200 group focus:outline-none focus-visible:ring-2 focus-visible:ring-black active:scale-[0.99] shadow-sm w-fit"
+          >
+            <span>Get Started</span>
+            <div className="w-7 h-7 rounded-full bg-white text-[#0A0A0A] flex items-center justify-center transition-transform duration-200 group-hover:translate-x-1 shadow-sm shrink-0">
+              <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
+            </div>
+          </a>
         </div>
 
-        {/* Headline */}
-        <h2 className="text-[clamp(2rem,4.5vw,3.4rem)] font-[800] font-jakarta text-[#0A0A0A] leading-[1.1] tracking-[-0.035em]">
-          Why businesses choose WrightCraft
-        </h2>
-
-        {/* Subtitle */}
-        <p className="text-[16px] sm:text-[17px] font-dm text-[#666666] leading-relaxed max-w-[60ch]">
-          A small studio that starts from real problems and builds software people actually want to use.
-        </p>
+        {/* Right (~40%) — paragraph, top-aligned with headline */}
+        <div className="w-full lg:w-[40%] lg:pt-[calc(clamp(2rem,4.5vw,3.4rem)*1.1+2.25rem)]">
+          <p className="font-dm font-normal text-[16px] sm:text-[17px] text-[#333333] leading-relaxed max-w-[46ch]">
+            We help businesses and people turn everyday frustrations into software that actually works for them. Every product and project starts with understanding the problem first, not the technology.
+          </p>
+        </div>
       </div>
 
-      {/* BENTO GRID IN LIGHT NEUTRAL PANEL */}
-      <div className="mt-12 sm:mt-16 bg-[#F7F7F7] border border-[#E5E5E5] rounded-[32px] p-3 sm:p-4 md:p-5 lg:p-6 shadow-sm">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3 sm:gap-4 md:gap-4 lg:gap-4 w-full">
-          
-          {/* CELL 1: Top-left portrait photo card */}
-          <div
-            style={{ transitionDelay: '80ms' }}
-            className={`md:col-span-1 lg:col-span-4 bg-[#F2F2F2] relative rounded-[24px] overflow-hidden border border-[#E5E5E5] flex flex-col justify-end p-6 sm:p-7 min-h-[340px] md:min-h-[380px] lg:min-h-[420px] group transition-all duration-700 ease-out hover:-translate-y-1 hover:shadow-lg motion-reduce:transition-none motion-reduce:transform-none ${
-              hasEntered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-            }`}
-          >
-            {/* Image with fallback placeholder */}
-            <img
-              src="/src/assets/about-founder-1.jpg"
-              alt="Founder & Product"
-              className="absolute inset-0 w-full h-full object-cover object-center select-none transition-transform duration-700 ease-out group-hover:scale-105"
-              onError={(e) => {
+      {/* BOTTOM TWO-COLUMN GRID */}
+      <div className="w-full grid grid-cols-1 lg:grid-cols-[60%_1fr] gap-3 sm:gap-4 items-stretch">
+
+        {/* LEFT — Large story photo card */}
+        <div
+          className={`relative rounded-[28px] overflow-hidden bg-[#F2F2F2] min-h-[420px] sm:min-h-[500px] lg:min-h-[560px] flex flex-col justify-end group hover:-translate-y-1 hover:shadow-xl transition-all duration-500 motion-reduce:transition-none motion-reduce:transform-none ${fadeClass()}`}
+          style={{ transitionDelay: hasEntered ? '80ms' : '0ms' }}
+        >
+          {/* Photo with gray fallback */}
+          <img
+            src={STORY_PHOTO}
+            alt="WrightCraft Studios team at work"
+            className="absolute inset-0 w-full h-full object-cover object-center select-none transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+            onError={(e) => {
+              // Try fallback to about-founder-1.jpg, then hide
+              if (e.currentTarget.src.indexOf('about-story') !== -1) {
+                e.currentTarget.src = FALLBACK_PHOTO;
+              } else {
                 e.currentTarget.style.display = 'none';
-              }}
-            />
-            {/* Soft dark gradient overlay for text readability */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent pointer-events-none" />
+              }
+            }}
+          />
 
-            <div className="relative z-10 text-white">
-              <span className="font-jakarta font-bold text-xs uppercase tracking-[0.2em] text-white/80 block mb-1">
-                Founder & Product
-              </span>
-              <h3 className="font-jakarta font-[800] text-xl sm:text-2xl text-white tracking-tight">
-                Founder Name One
-              </h3>
-            </div>
+          {/* Bottom-third dark gradient for text legibility */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent pointer-events-none" />
+
+          {/* Overlaid text */}
+          <div className="relative z-10 p-7 sm:p-9">
+            <h3 className="font-jakarta font-[800] text-[22px] sm:text-[26px] text-white tracking-tight leading-snug">
+              Our Story
+            </h3>
+            <p className="mt-2 font-dm text-[14px] sm:text-[15px] text-white/80 leading-relaxed max-w-[52ch]">
+              WrightCraft Studios started with a simple idea: build the tools we wished existed. What began as side projects turned into a studio that helps other businesses solve their own everyday problems.
+            </p>
           </div>
+        </div>
 
-          {/* CELL 2: Top-middle landscape photo card */}
+        {/* RIGHT — Two stacked cards */}
+        <div className="flex flex-col gap-3 sm:gap-4">
+
+          {/* Mission card — light neutral gray */}
           <div
-            style={{ transitionDelay: '160ms' }}
-            className={`md:col-span-1 lg:col-span-5 bg-[#F2F2F2] relative rounded-[24px] overflow-hidden border border-[#E5E5E5] flex flex-col justify-end p-6 sm:p-7 min-h-[340px] md:min-h-[380px] lg:min-h-[420px] group transition-all duration-700 ease-out hover:-translate-y-1 hover:shadow-lg motion-reduce:transition-none motion-reduce:transform-none ${
-              hasEntered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-            }`}
+            className={`flex-1 rounded-[24px] bg-[#F2F2F2] p-8 sm:p-9 flex flex-col justify-between ${fadeClass()}`}
+            style={{ transitionDelay: hasEntered ? '160ms' : '0ms' }}
           >
-            {/* Image with fallback placeholder */}
-            <img
-              src="/src/assets/about-founder-2.jpg"
-              alt="Founder & Engineering"
-              className="absolute inset-0 w-full h-full object-cover object-center select-none transition-transform duration-700 ease-out group-hover:scale-105"
-              onError={(e) => {
-                e.currentTarget.style.display = 'none';
-              }}
-            />
-            {/* Soft dark gradient overlay for text readability */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent pointer-events-none" />
-
-            <div className="relative z-10 text-white">
-              <span className="font-jakarta font-bold text-xs uppercase tracking-[0.2em] text-white/80 block mb-1">
-                Founder & Engineering
-              </span>
-              <h3 className="font-jakarta font-[800] text-xl sm:text-2xl text-white tracking-tight">
-                Founder Name Two
-              </h3>
-            </div>
-          </div>
-
-          {/* CELL 3: Top-right small stat card */}
-          <div
-            style={{ transitionDelay: '240ms' }}
-            className={`md:col-span-1 lg:col-span-3 bg-white rounded-[24px] p-7 sm:p-8 border border-[#E5E5E5] flex flex-col justify-between min-h-[200px] md:min-h-[380px] lg:min-h-[420px] shadow-sm transition-all duration-700 ease-out motion-reduce:transition-none motion-reduce:transform-none ${
-              hasEntered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-            }`}
-          >
-            <div className="w-2.5 h-2.5 rounded-full bg-[#0A0A0A]" />
             <div>
-              <span className="font-jakarta font-[800] text-5xl sm:text-6xl xl:text-7xl text-[#0A0A0A] tracking-tight block">
-                2026
-              </span>
-              <span className="font-jakarta font-bold text-xs sm:text-sm uppercase tracking-[0.2em] text-[#666666] block mt-2">
-                Studio founded
-              </span>
+              <h3 className="font-jakarta font-[800] text-[20px] sm:text-[22px] text-[#0A0A0A] tracking-tight leading-snug">
+                Our Mission
+              </h3>
+              <p className="mt-3 font-dm text-[15px] sm:text-[16px] text-[#333333] leading-relaxed">
+                To build focused software that solves real problems, for businesses and everyday people alike.
+              </p>
             </div>
+            {/* Decorative dot */}
+            <div className="w-2.5 h-2.5 rounded-full bg-[#CCCCCC] mt-6" />
           </div>
 
-          {/* CELL 4: Bottom-left wider text card */}
+          {/* Vision card — solid black */}
           <div
-            style={{ transitionDelay: '320ms' }}
-            className={`md:col-span-1 lg:col-span-7 bg-white rounded-[24px] p-7 sm:p-8 md:p-9 border border-[#E5E5E5] flex flex-col justify-between gap-6 shadow-sm min-h-[220px] transition-all duration-700 ease-out motion-reduce:transition-none motion-reduce:transform-none ${
-              hasEntered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-            }`}
+            className={`flex-1 rounded-[24px] bg-[#0A0A0A] p-8 sm:p-9 flex flex-col justify-between ${fadeClass()}`}
+            style={{ transitionDelay: hasEntered ? '240ms' : '0ms' }}
           >
-            <p className="font-dm font-normal text-[15px] sm:text-[16px] text-[#333333] leading-relaxed max-w-[44ch]">
-              Handcrafted software, built with care from the first sketch to the last detail.
-            </p>
-            <a
-              href="#process"
-              onClick={scrollToProcess}
-              className="h-[44px] sm:h-[48px] px-5 sm:px-6 rounded-full bg-[#0A0A0A] hover:bg-[#262626] text-white font-jakarta font-bold text-xs sm:text-sm inline-flex items-center gap-3 transition-all duration-200 group focus:outline-none focus-visible:ring-2 focus-visible:ring-black active:scale-[0.99] shadow-sm w-fit"
-            >
-              <span>See our process</span>
-              <div className="w-6 h-6 rounded-full bg-white text-[#0A0A0A] flex items-center justify-center transition-transform duration-200 group-hover:translate-x-1 shadow-sm shrink-0">
-                <ArrowRight className="w-3 h-3 stroke-[2.5]" />
-              </div>
-            </a>
-          </div>
-
-          {/* CELL 5: Bottom-right text card with inline photo accent */}
-          <div
-            style={{ transitionDelay: '400ms' }}
-            className={`md:col-span-2 lg:col-span-5 bg-white rounded-[24px] p-7 sm:p-8 md:p-9 border border-[#E5E5E5] flex flex-col justify-between gap-6 shadow-sm min-h-[220px] transition-all duration-700 ease-out motion-reduce:transition-none motion-reduce:transform-none ${
-              hasEntered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-            }`}
-          >
-            <div className="w-11 h-11 rounded-full overflow-hidden bg-[#F2F2F2] border border-[#E5E5E5] shrink-0 relative">
-              <img
-                src="/src/assets/about-founder-1.jpg"
-                alt="Studio craft accent"
-                className="w-full h-full object-cover select-none"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                }}
-              />
+            <div>
+              <h3 className="font-jakarta font-[800] text-[20px] sm:text-[22px] text-white tracking-tight leading-snug">
+                Our Vision
+              </h3>
+              <p className="mt-3 font-dm text-[15px] sm:text-[16px] text-[#CCCCCC] leading-relaxed">
+                To be the studio people turn to when they want software that actually understands their problem.
+              </p>
             </div>
-            <p className="font-dm font-normal text-[15px] sm:text-[16px] text-[#333333] leading-relaxed max-w-[40ch]">
-              We turn everyday frustrations into tools people are glad to use, for businesses and individuals alike.
-            </p>
+            {/* Decorative dot */}
+            <div className="w-2.5 h-2.5 rounded-full bg-white/30 mt-6" />
           </div>
 
         </div>
